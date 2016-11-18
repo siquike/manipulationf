@@ -9,16 +9,15 @@ function G = buildRRT(qi,K,dq)
 % G: Output graph
  
 %% Implementation
-G = AreaGraph(zeros(50));
+G = AreaGraph(zeros(3));
 G = G.init(qi)
-G = G.addEdges([qi qi + dq])
 for i = 1:K
-  qrand = randConf();
+  qrand = randConf(G);
   qnear = nearestVertex(qrand,G);
   qnew = newConfig(qnear,qrand,dq);
   if (sum(qnear > 0) == 2) && (sum(qnew > 0) == 2)
-    G = G.addVertex(qnew)
-    G = G.addEdges([qnear qnew])
+	G = G.addVertex(qnew)
+	G = G.addEdges([qnear qnew])
   end
 end	
 

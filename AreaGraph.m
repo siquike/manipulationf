@@ -4,35 +4,49 @@
 % q: vertex [x y]
 % e: edge [x1 y1 x2 y2]
 classdef AreaGraph
-   properties
-      Graph
-      Initial
-      Edges
-   end
-
-   methods
-      % Constructor Method % Constructs object
+	properties
+		Graph
+		Initial
+		Adjacency
+		Adjn
+		Nodes
+		Coords
+	end
+	
+	methods
+	% Constructor Method % Constructs object
       function obj = AreaGraph(G)
       	 if nargin > 0
             obj.Graph = G;
             obj.Initial = [];
-            obj.Edges = [];
+	    	obj.Adjn = prod(size(G));% Size of adjacency matrix
+            obj.Adjacency = zeros(obj.Adjn);
+			x = 1:size(G,1);
+			y = 1:size(G,2);
+			[Y,X] = meshgrid(y,x);
+			obj.Coords = [X(:) Y(:)];
+			obj.Nodes = [];
          end
       end
       function obj = init(obj,val)
       	 if nargin > 0
             obj.Graph(val(1),val(2)) = 1;
             obj.Initial = val;
+			obj.Nodes = val;
         end
       end
       function obj = addEdges(obj,val)
       	 if nargin > 0
-            obj.Edges = [obj.Edges; val];
+			val1 = sub2ind(size(obj.Graph),val(1),val(2));
+			val2 = sub2ind(size(obj.Graph),val(3),val(4));
+            obj.Adjacency(val1,val2) = 1;
+            obj.Adjacency(val2,val1) = 1;
          end
       end
       function obj = addVertex(obj,val)
       	 if nargin > 0
 	    obj.Graph(val(1),val(2)) = 1;
+		obj.Nodes = [obj.Nodes;val];
          end
       end
 
