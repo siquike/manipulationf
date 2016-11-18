@@ -1,4 +1,4 @@
-function G = buildRRT(qi,K,dq,G)
+function G = buildRRT(qi,K,dq)
 
 %=========Inputs============
 % qi: Initial Configuration
@@ -7,16 +7,16 @@ function G = buildRRT(qi,K,dq,G)
 % G: Graph
 %========Outputs============
 % G: Output graph
-
+ 
 %% Implementation
 G = AreaGraph(zeros(50));
-G.Initial = qi;
+G = G.init(qi)
 for i = 1:K
   qrand = randConf();
-  % qrand = randFreeConfig;
   qnear = nearestVertex(qrand,G);
-  qnew = newConfig(qrand,G); 
-  
+  qnew = newConfig(qnear,qrand,dq); 
+  G = G.addVertex(qnew)
+  G = G.addEdges([qnear qnew])
 end	
 
 end
