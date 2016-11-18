@@ -9,25 +9,28 @@ classdef AreaGraph
       Initial
       Edges
    end
+
    methods
+      % Constructor Method % Constructs object
       function obj = AreaGraph(G)
       	 if nargin > 0
             obj.Graph = G;
+            obj.Initial = [];
+            obj.Edges = [];
          end
       end
-      function obj = set.Initial(obj,val)
+      function obj = init(obj,val)
       	 if nargin > 0
+            obj.Graph(val(1),val(2)) = 1;
             obj.Initial = val;
-	    obj.Graph(val(1),val(2)) = 1;
-
-         end
+        end
       end
-      function obj = set.Edges(obj,val)
+      function obj = addEdges(obj,val)
       	 if nargin > 0
             obj.Edges = [obj.Edges; val];
          end
       end
-      function obj = set.GraphCoor(obj,val)
+      function obj = addVertex(obj,val)
       	 if nargin > 0
 	    obj.Graph(val(1),val(2)) = 1;
          end
