@@ -7,7 +7,6 @@ v = qrand - qnear;
 dq(1) = dq(1)*sign(v(1));
 dq(2) = dq(2)*sign(v(2));
 qnew = qnear + dq;
-%  angle = atan2(norm(cross(a,b)),dot(a,b)); % In 3D
 end
 
 % function hat = skew(v)

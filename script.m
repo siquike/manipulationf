@@ -13,4 +13,6 @@ dq = [1 1];% Incremental distance for the state
 G = buildRRT(qi,K,dq) 
 
 figure
-line(G.Edges(:,1:2),G.Edges(:,3:4))
+hold on
+plot(G.Edges(1,1:2),G.Edges(1,3:4),'b') % Rearrange edges
+plot(qi(1),qi(2),'*') 
