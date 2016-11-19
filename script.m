@@ -10,17 +10,23 @@ K = 10; % K is number of vertices. !!!What does this mean? Initial? !!!! Revisit
 
 dq = [1 1];% Incremental distance for the state
 
-G = buildRRT(qi,K,dq) 
+G = buildRRT(qi,K,dq); 
 
 figure
 hold on
-%plot(G.Edges(1,1:2),G.Edges(1,3:4),'b') % Rearrange edges
-%plot(qi(1),qi(2),'*')
-%Coordinates = [(1:G.Adjn)' (1:G.Adjn)'];
-%k = 1:3
-Coordinates = G.Nodes
-G1 = graph(G.Adjacency)
-B = adjacency(G1)
-gplot(B,Coordinates,'-*')
-%plot(qi(1),qi(2),'*')
+
+plot(qi(1),qi(2),'*R')
+plot(G.Nodes(:,1),G.Nodes(:,2),'oB');
+A = G.Adjacency;
+for i = 2:size(A,1)
+    for j = i:size(A,1)
+        if A(i,j) == 1
+            node1 = G.Coords(i,:);
+            node2 = G.Coords(j,:);
+            plot([node1(1) node2(1)],[node1(2) node2(2)],'-b');
+        end
+    end
+end
+% plot(A,'-*')
+axis([1,3,1,3])
 axis square

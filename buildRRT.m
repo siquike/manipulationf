@@ -11,13 +11,19 @@ function G = buildRRT(qi,K,dq)
 %% Implementation
 G = AreaGraph(zeros(3));
 G = G.init(qi)
+b = 0;
 for i = 1:K
-  qrand = randConf(G);
-  qnear = nearestVertex(qrand,G);
-  qnew = newConfig(qnear,qrand,dq);
+    qrand = randConf(G);
+    if b == 0
+        qnear = qi;
+        b = 1;
+    else
+        qnear = nearestVertex(qrand,G);
+    end
+    qnew = newConfig(qnear,qrand,dq);
   if (sum(qnear > 0) == 2) && (sum(qnew > 0) == 2)
-	G = G.addVertex(qnew)
-	G = G.addEdges([qnear qnew])
+	G = G.addVertex(qnew);
+	G = G.addEdges([qnear qnew]);
   end
 end	
 
