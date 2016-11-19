@@ -37,9 +37,8 @@ classdef AreaGraph
       end
       function obj = addEdges(obj,val)
       	 if nargin > 0
-             val
-            [~,val1] = pdist2(obj.Coords,[val(1) val(2)],'euclidean','Smallest',1)
-            [~,val2] = pdist2(obj.Coords,[val(3) val(4)],'euclidean','Smallest',1)
+            [~,val1] = pdist2(obj.Coords,[val(1) val(2)],'euclidean','Smallest',1);
+            [~,val2] = pdist2(obj.Coords,[val(3) val(4)],'euclidean','Smallest',1);
 % 			val1 = p2dist([val(1) val(2)],obj.Coords))
 % 			val2 = find(ismember([val(3) val(4)],obj.Coords))
             obj.Adjacency(val1,val2) = 1;

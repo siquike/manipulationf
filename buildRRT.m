@@ -1,16 +1,17 @@
-function G = buildRRT(qi,K,dq)
+function G = buildRRT(qi,K,dq,nG)
 
 %=========Inputs============
 % qi: Initial Configuration
 % K: Number of Vertices in RRT
 % dq: Incremental Distance 
-% G: Graph
+% nG: size of Graph
+
 %========Outputs============
 % G: Output graph
  
 %% Implementation
-G = AreaGraph(zeros(3));
-G = G.init(qi)
+G = AreaGraph(zeros(nG));
+G = G.init(qi);
 b = 0;
 for i = 1:K
     qrand = randConf(G);
