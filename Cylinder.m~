@@ -1,0 +1,44 @@
+% Class to create a graph object
+% dim: [x y]% Dimensions of the graph
+% qi: initial vertex
+% q: vertex [x y]
+% e: edge [x1 y1 x2 y2]
+classdef Cylinder
+	properties
+		Center
+		Radius
+	end
+	
+	methods
+	% Constructor Method % Constructs object
+      function obj = Cylinder(cyl)
+      	 if nargin > 0
+            obj.Center = [cyl(1) cyl(2)];
+            obj.Radius = cyl(3);
+         end
+      end
+      function obj = dist(obj,Xp)
+      	 if nargin > 0
+            D = pdist2(obj.Center,Xp);
+            
+        end
+      end
+      function obj = addEdges(obj,val)
+      	 if nargin > 0
+            [~,val1] = pdist2(obj.Coords,[val(1) val(2)],'euclidean','Smallest',1);
+            [~,val2] = pdist2(obj.Coords,[val(3) val(4)],'euclidean','Smallest',1);
+% 			val1 = p2dist([val(1) val(2)],obj.Coords))
+% 			val2 = find(ismember([val(3) val(4)],obj.Coords))
+            obj.Adjacency(val1,val2) = 1;
+            obj.Adjacency(val2,val1) = 1;
+         end
+      end
+      function obj = addVertex(obj,val)
+      	 if nargin > 0
+	    obj.Graph(val(1),val(2)) = 1;
+		obj.Nodes = [obj.Nodes;val];
+         end
+      end
+
+   end
+end
