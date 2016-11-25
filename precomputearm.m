@@ -45,16 +45,36 @@ for i = 1:size(F,1)
     angle(i) = direction(i)*acos(dot(v1,v2)/(norm(v1)*norm(v2)));
 end
 
-save('states.mat','X_body','angle')
+save('states.mat','X_body','angle','direction')
 
 %%
-iteration = 52;
-% [X_body2]= moduleTransform(X_body,[x_ee(iteration) y_ee(iteration)],direction)
-[X_body2]= moduleTransform(X_body,X_body(end,:,iteration),direction)
+iteration1 = 1;
+iteration2 = 1;
+iteration3 = 1;
+[X_body2]= moduleTransform(X_body,X_body(end,:,iteration1),X_body,direction,iteration1);
+[X_body3]= moduleTransform(X_body,X_body2(end,:,iteration2),X_body2,direction,iteration2);
 figure
-plot(x_ee,y_ee)
 hold on
-plot(X_body(:,1,iteration),X_body(:,2,iteration),'r')
-plot(X_body2(:,1,iteration),X_body2(:,2,iteration),'g')
+plot(x_ee,y_ee,'--')
+plot(permute(X_body2(end,1,:),[3 2 1]),permute(X_body2(end,2,:),[3 2 1]),'--')
+plot(permute(X_body3(end,1,:),[3 2 1]),permute(X_body3(end,2,:),[3 2 1]),'--')
+plot(X_body(:,1,iteration1),X_body(:,2,iteration1),'r')
+plot(X_body2(:,1,iteration2),X_body2(:,2,iteration2),'g')
+plot(X_body3(:,1,iteration3),X_body3(:,2,iteration3),'b')
+axis equal
 
-
+%% Build entire statespace
+allstates = [];
+for i = 1:size(F,1)
+    for j = 1:size(F,1)
+        for k = 1:size(F,1)
+            iteration1 = i;
+            iteration2 = j;
+            iteration3 = k;
+            [X_body2]= moduleTransform(X_body,X_body(end,:,iteration1),X_body,direction,iteration1);
+            [X_body3]= moduleTransform(X_body,X_body2(end,:,iteration2),X_body2,direction,iteration2);
+            allstates = [allstates; i j k X_body3(end,1,iteration3) X_body3(end,2,iteration3)];
+        end
+    end
+end
+save('allstates.mat','allstates')

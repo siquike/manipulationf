@@ -5,8 +5,8 @@
 % connected = % indeces of connected states
 
 % determine qi based on initial configuration of robot
-qi = [50 60];
-K = 200; % K is number of vertices. !!!What does this mean? Initial? !!!! Revisit
+qi = [1 1];
+K = 100; % K is number of vertices. !!!What does this mean? Initial? !!!! Revisit
 
 dq = [1 1];% Incremental distance for the state
 nG = 100;

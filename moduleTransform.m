@@ -1,20 +1,21 @@
-function  [X_body]= moduleTransform(X_body,X_ee,direction)
+function  [X_nmod]= moduleTransform(X_body,X_ee,X_new,direction,iteration)
 %
-for i = 1:size(X_body,3)
-    X_body(:,1,i) = X_body(:,1,i) - X_body(1,1,i);
-    X_body(:,2,i) = X_body(:,2,i) - X_body(1,2,i);
-    v1 = [X_body(end,1,i)-X_body(end-1,1,i) X_body(end,2,i)-X_body(end-1,2,i)];
-    v2 = [0 1];
-%     if direction < 0
-    theta(i) = direction(i)*acos(dot(v1,v2)/(norm(v1)*norm(v2)));
-%     elseif direction > 0
-%         theta = acos(dot(v1,v2)/(norm(v1)*norm(v2)))+pi/2;
-%     end
-    R = [cos(theta(i)) -sin(theta(i)); 
-         sin(theta(i)) cos(theta(i))];
-    X_body(:,:,i) = (R*X_body(:,:,i)')';
-
-    X_body(:,1,i) = X_body(:,1,i) + X_ee(1);
-    X_body(:,2,i) = X_body(:,2,i) + X_ee(2);
+X_new(:,1,iteration) = X_new(:,1,iteration) - X_new(1,1,iteration);
+X_new(:,2,iteration) = X_new(:,2,iteration) - X_new(1,2,iteration);
+v1 = [X_new(end,1,iteration)-X_new(end-1,1,iteration) X_new(end,2,iteration)-X_new(end-1,2,iteration)];
+v2 = [0 1];
+theta = direction(iteration)*acos(dot(v1,v2)/(norm(v1)*norm(v2)));
+for i = 1:size(X_new,3)
+    R = [cos(theta) -sin(theta); 
+         sin(theta) cos(theta)];
+    X_nmod(:,:,i) = (R*X_body(:,:,i)')';
+    v2 = [X_nmod(1,1,i)-X_nmod(2,1,i) X_nmod(1,2,i)-X_nmod(2,2,i)];
+    if (pi-abs(acos(dot(v1,v2)/(norm(v1)*norm(v2))))) > 1;
+        R = [cos(-theta) -sin(-theta); 
+             sin(-theta) cos(-theta)];
+        X_nmod(:,:,i) = (R*X_body(:,:,i)')';  
+    end
 end
+X_nmod(:,1,:) = X_nmod(:,1,:) + X_ee(1);
+X_nmod(:,2,:) = X_nmod(:,2,:) + X_ee(2);
 end
