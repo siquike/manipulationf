@@ -8,22 +8,16 @@ dq(2) = dq(2)*sign(v(2));
 qnew = qnear + dq;
 load states.mat
 
-n = 5;
+n = 30;
 inside = 1;
 while inside == 1
-    iteration1 = round(n*rand(1,1)+.5 - n/2 + iteration(1));
-    iteration2 = round(n*rand(1,1)+.5 - n/2 + iteration(2));
+    iteration1 = round(n*rand(1,1)+.5 - n/2 + iteration(1))
+    iteration2 = round(n*rand(1,1)+.5 - n/2 + iteration(2))
     if iteration1 < 1
         iteration1 = 1;
     end
-    if iteration1 > 101;
-        iteration1 = 101;
-    end
-    if iteration2 < 1
-        iteration2 = 1;
-    end
-    if iteration2 > 101;
-        iteration2 = 101;
+    if iteration1 > size(G.Graph);
+        iteration1 = 100;
     end
 %     iteration3 = round(n*rand(1,1)+.5);
     for i = 1:size(iteration1)

@@ -10,7 +10,7 @@ for i = 1:size(X_new,3)
          sin(theta) cos(theta)];
     X_nmod(:,:,i) = (R*X_body(:,:,i)')';
     v2 = [X_nmod(1,1,i)-X_nmod(2,1,i) X_nmod(1,2,i)-X_nmod(2,2,i)];
-    if (pi-abs(acos(dot(v1,v2)/(norm(v1)*norm(v2))))) > 1;
+    if (pi-abs(acos(dot(v1,v2)/(norm(v1)*norm(v2))))) > .3;
         R = [cos(-theta) -sin(-theta); 
              sin(-theta) cos(-theta)];
         X_nmod(:,:,i) = (R*X_body(:,:,i)')';  
