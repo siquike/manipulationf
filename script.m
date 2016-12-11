@@ -15,19 +15,19 @@
 % qi = round(X_body3(end,:,iteration3)*100);
 % % qi = round(bodyn(end,:,3));
 %%
-load states.mat
-figure
-hold on
-for i = 1:size(X_body,3)
-    plot(X_body(:,1,i),X_body(:,2,i))
-end
+% load states.mat
+% figure
+% hold on
+% for i = 1:size(X_body,3)
+%     plot(X_body(:,1,i),X_body(:,2,i))
+% end
 %%
 qi = [50 60];
-K = 100; % K is number of vertices.
-
-dq = [1 1];% Incremental distance for the state
+K = 300; % K is number of vertices.
+goal = [40 70];
+dq = [2 2 2];% Incremental distance for the state
 nG = 100;
-[G,o1,body] = buildRRT(qi,K,dq,nG); 
+[G,o1,body] = buildRRT(qi,K,dq,nG,goal); 
 
 figure
 hold on

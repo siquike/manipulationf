@@ -10,6 +10,7 @@ classdef AreaGraph
 		Adjacency
 		Adjn
 		Nodes
+        Configurations
 		Coords
 	end
 	
@@ -49,6 +50,12 @@ classdef AreaGraph
       	 if nargin > 0
 	    obj.Graph(val(1),val(2)) = 1;
 		obj.Nodes = [obj.Nodes;val];
+         end
+      end
+      function obj = addConfiguration(obj,val)
+      	 if nargin > 0
+% 	    obj.Graph(val(1),val(2)) = 1;
+		obj.Configurations = [obj.Configurations;val];
          end
       end
 

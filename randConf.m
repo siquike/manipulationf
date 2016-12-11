@@ -1,4 +1,4 @@
-function [qrand,bodyn,iteration] = randConf(G,o1)
+function [qrand,bodyn,iteration] = randConf(G,o1,goal)
 % n = size(G.Graph);
 % qrand = [n(1)*rand(1,1) n(2)*rand(1,1)];
 
@@ -8,8 +8,10 @@ load states.mat
 % n = size(G.Graph);
 n = size(X_body,1);
 iteration1 = round(n*rand(1,1)+.5);
-iteration2 = round(n*rand(1,1)+.5);
-iteration3 = round(n*rand(1,1)+.5);
+% iteration2 = round(n*rand(1,1)+.5);
+% iteration3 = round(n*rand(1,1)+.5);
+iteration2 = round(n/25*rand(1,1)+90);
+iteration3 = round(n/25*rand(1,1)+90);
     for i = 1:size(iteration1)
         [X_body2]= moduleTransform(X_body,X_body(end,:,iteration1(1)),X_body,direction,iteration1(i));
         [X_body3]= moduleTransform(X_body,X_body2(end,:,iteration2(1)),X_body2,direction,iteration2(i));

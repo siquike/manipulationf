@@ -1,18 +1,22 @@
-function [qnew,bodyn] = newConfig(qnear,qrand,bodyn,dq,o1,iteration,G)
+function [qnew,bodyn,conf] = newConfig(qnear,qrand,bodyn,dq,o1,iteration,G,conf)
 % Built based on
 % http://math.stackexchange.com/questions/180418/calculate-rotation-matrix-to-align-vector-a-to-vector-b-in-3d
 
-v = qrand - qnear;
+v = iteration - conf;
 dq(1) = dq(1)*sign(v(1));
 dq(2) = dq(2)*sign(v(2));
-qnew = qnear + dq;
+dq(3) = dq(3)*sign(v(3));
+qnew = qnear + dq(1:2);
+it = conf + dq;
 load states.mat
 
-n = 5;
+n = 3;
 inside = 1;
 while inside == 1
-    iteration1 = round(n*rand(1,1)+.5 - n/2 + iteration(1));
-    iteration2 = round(n*rand(1,1)+.5 - n/2 + iteration(2));
+    iteration1 = round(n*rand(1,1)+.5 - n/2 + it(1));
+    iteration2 = round(n*rand(1,1)+.5 - n/2 + it(2));
+%     iteration1 = round(n*rand(1,1)+.5 - n/2 + iteration(1));
+%     iteration2 = round(n*rand(1,1)+.5 - n/2 + iteration(2));
     if iteration1 < 1
         iteration1 = 1;
     end
@@ -36,15 +40,16 @@ while inside == 1
             qnewcomp = permute(qnewcomp,[3 2 1]);
             [D1,I1] = pdist2(qnewcomp,qnew,'euclidean','Smallest',1);
             [D2,I2] = pdist2(qnewcomp,qnear,'euclidean','Smallest',1);
-%             D1
-%             D2
+            D1
+            D2
 %             %             [row,col] = find(D' <= 5);
             if D1 < 50 && D2 < 50
                 inside = 0;
                 bodyn(:,:,1) = X_body(:,:,iteration1(i))*100;
                 bodyn(:,:,2) = X_body2(:,:,iteration2(i))*100;
                 bodyn(:,:,3) = X_body3(:,:,I1)*100;
-                qnew = round(bodyn(end,:,3));
+%                 qnew = round(bodyn(end,:,3));
+                conf = [iteration1(i) iteration2(i) I1];
                 break
             end
     end
