@@ -1,33 +1,20 @@
-%% Dynamics of Robot
-%% Build a graph
+%% RRT-ish for 3 Module Soft Robotic Manipulator
+% This script builds and displays RRT-ish
 
-% subp = 1:prod(size(S)); %linear indeces of matrix V
-% connected = % indeces of connected states
+%% Initialize
 
-% determine qi based on initial configuration of robot
-% load states.mat
-% n = size(X_body,1);
-% iteration1 = round(n*rand(1,1)+.5 + X_body(:,:,1));
-% iteration2 = round(n*rand(1,1)+.5 + X_body(:,:,1));
-% iteration3 = round(n*rand(1,1)+.5 + X_body(:,:,1));
-% [X_body2]= moduleTransform(X_body,X_body(end,:,iteration1),X_body,direction,iteration1);
-% [X_body3]= moduleTransform(X_body,X_body2(end,:,iteration2),X_body2,direction,iteration2);
-% qi = round(X_body3(end,:,iteration3)*100);
-% % qi = round(bodyn(end,:,3));
-%%
-% load states.mat
-% figure
-% hold on
-% for i = 1:size(X_body,3)
-%     plot(X_body(:,1,i),X_body(:,2,i))
-% end
-%%
-qi = [50 60];
-K = 200; % K is number of vertices.
-goal = [40 50];
-dq = [2 2 2];% Incremental distance for the state
-nG = 100;
-[G,o1,body] = buildRRT(qi,K,dq,nG,goal); 
+start = [50 60]; % Intial End-effector Position of Robot
+K = 200; % K is number times RRT-ish loops
+goal = [88 32]; % Target for the end-effector
+dq = [2 2 2]; % Incremental distance for the states of manipulator
+sizeGraph = 100; % Square size of the graph
+
+%% Implement
+
+[G,o1,body] = buildRRT(start,goal,K,dq,sizeGraph); 
+
+
+%% Plot
 
 figure
 hold on
@@ -51,22 +38,17 @@ end
 
 plot(G.Nodes(:,1),G.Nodes(:,2),'gs','MarkerSize',7,'MarkerFaceColor',[0.5,0.5,0.5]);
 plot(G.Endeff(:,1),G.Endeff(:,2),'bs','MarkerSize',7,'MarkerFaceColor',[0.5,0.5,0.5]);
-plot(qi(1),qi(2),'*R','MarkerSize',10);
+plot(start(1),start(2),'*R','MarkerSize',10);
 plot(goal(1),goal(2),'*R','MarkerSize',10);
 
-%%
 for i = 1:size(body,4)
-%     for j = 1:size(body,3)
-        plot(body(:,1,1,i),body(:,2,1,i),'r')
-        plot(body(:,1,2,i),body(:,2,2,i),'g')
-        plot(body(:,1,3,i),body(:,2,3,i),'b')
-%     end
+    plot(body(:,1,1,i),body(:,2,1,i),'r')
+    plot(body(:,1,2,i),body(:,2,2,i),'g')
+    plot(body(:,1,3,i),body(:,2,3,i),'b')
 end
-%%
+
 pos = [o1.Center(1)-o1.Radius o1.Center(2)-o1.Radius o1.Radius*2 o1.Radius*2];
 rectangle('Position',pos,'Curvature',[1 1],'FaceColor',[0 .5 .5],'EdgeColor','b',...
     'LineWidth',3)
-% fill(x,y,'r')
-% plot(A,'-*')
-axis([1,nG,1,nG])
+axis([1,sizeGraph,1,sizeGraph])
 axis equal

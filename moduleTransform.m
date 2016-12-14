@@ -1,5 +1,9 @@
-function  [X_nmod]= moduleTransform(X_body,X_ee,X_new,direction,iteration)
-%
+function  [X_nmod]= moduleTransform(X_body,X_new,direction,iteration)
+
+% End Effector Position
+X_ee = X_new(end,:,iteration);
+
+
 X_new(:,1,iteration) = X_new(:,1,iteration) - X_new(1,1,iteration);
 X_new(:,2,iteration) = X_new(:,2,iteration) - X_new(1,2,iteration);
 v1 = [X_new(end,1,iteration)-X_new(end-1,1,iteration) X_new(end,2,iteration)-X_new(end-1,2,iteration)];

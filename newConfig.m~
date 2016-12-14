@@ -9,12 +9,11 @@ function [qnew,bodyn,conf,endeff] = newConfig(qnear,bodyn,dq,iteration,sizeGraph
 % conf:      Configuration of arm selected
 
 %========Outputs============
-% qnew:      End-effector Position based on step dq from the direction of qnear to qrand for RRT 
+% qnew:      End-effector Position based on step dq from the direction of qnear to qrand  
 % bodyn:     Constructed body of robot
 % conf:      Configuration of arm selected
-% endeff:    End-effector Position based on step dq from the direction of qnear to qrand for real end-effector
+% endeff:    
 
-%% Implementation
 load states.mat
 
 % Find direction of step

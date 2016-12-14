@@ -1,0 +1,36 @@
+function [qrand,bodyn,iteration] = randConf(sizeGraph,goal)
+load states.mat
+
+
+n = size(X_body,1);
+
+if goal(1) > 50
+    iteration(1) = round(n/25*rand(1,1)+70);
+    iteration(2) = round(n/25*rand(1,1)+90);
+    iteration(3) = round(n/25*rand(1,1)+90);
+elseif goal(1) < 50
+    iteration(1) = round(n/25*rand(1,1)+30);
+    iteration(2) = round(n/25*rand(1,1)+10);
+    iteration3) = round(n/25*rand(1,1)+10);
+else
+    iteration1 = round(n*rand(1,1)+.5);
+    iteration2 = round(n*rand(1,1)+.5);
+    iteration3 = round(n*rand(1,1)+.5);
+end
+
+% Compute module configurations
+[X_body2]= moduleTransform(X_body,X_body,direction,iteration1);
+[X_body3]= moduleTransform(X_body,X_body2,direction,iteration2);
+% Set ground at X = 50
+X_body(:,1,:) = X_body(:,1,:) + 0.5; 
+X_body2(:,1,:) = X_body2(:,1,:) + 0.5;
+X_body3(:,1,:) = X_body3(:,1,:) + 0.5;
+% Select End effector position based on random configuration
+qrand = X_body3(end,:,iteration3)*100;
+% 
+bodyn(:,:,1) = X_body(:,:,iteration1)*sizeGraph;
+bodyn(:,:,2) = X_body2(:,:,iteration2)*sizeGraph;
+bodyn(:,:,3) = X_body3(:,:,iteration3)*sizeGraph;
+iteration = [iteration1 iteration2 iteration3];
+
+end

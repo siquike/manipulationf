@@ -1,13 +1,13 @@
 function [qnear] = nearestVertex(qrand,G)
 %% Desccription
 %=========Inputs============
-% qrand:     End-effector Position based on randomly selected configurations  
-% G:         Graph object
+% sizeGraph: Square size of Graph
+% goal:      Desired final position of end effector
 
 %========Outputs============
-% qnear:     Nearest coordinate to random ened-effector position selected in randConfig function
+% bodyn:     Constructed body of robot
+% iteration: Index of lookup table for particular configuration built
 
-%% Implementation
 coordinates = G.Nodes;
 [~,I] = pdist2(coordinates,qrand,'euclidean','Smallest',1);
 qnear = coordinates(I,:);
