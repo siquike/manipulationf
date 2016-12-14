@@ -14,8 +14,9 @@ function [G,o1,body] = buildRRT(qi,K,dq,nG,goal)
 G = AreaGraph(zeros(nG));
 G = G.init(qi);
 G = G.addConfiguration([51 51 51]);
-o1 = Cylinder([70 15 10]);
+o1 = Cylinder([35 40 10]);
 first = 1;
+endeffprev = [50 60];
 for i = 1:K
     [qrand,bodyn,iteration] = randConf(G,o1,goal);
 %     conf = iteration;
@@ -29,7 +30,7 @@ for i = 1:K
         [qnear] = nearestVertex(qrand,G,iteration);
         inside1 = o1.Dist(qnear);
     end
-    [qnew,bodyn,conf] = newConfig(qnear,qrand,bodyn,dq,o1,iteration,G,conf);
+    [qnew,bodyn,conf,endeff] = newConfig(qnear,qrand,bodyn,dq,o1,iteration,G,conf);
 %     qnear = nearestVertex(qnew,G);
     inside1 = o1.Dist(qnear);
     inside2 = o1.Dist(qnew);
@@ -41,9 +42,19 @@ for i = 1:K
 %     qnew
   if (sum(qnear > 0) == 2) && (sum(qnew > 0) == 2) && (inside1 ~= 1) && (inside2 ~= 1) && (inside3 ~= 1) && (inside4 ~= 1) && (inside5 ~= 1) && (D ~=0)
 	G = G.addVertex(qnew);
+    G = G.addEndeff(round(endeff));
     G = G.addConfiguration(conf);
 	G = G.addEdges([qnear qnew]);
+%     [endeffprev endeff]
+    G = G.addEdges2([endeffprev round(endeff)]);
     body = cat(4, body, bodyn);
+    endeffprev = round(endeff);
+    [Dend,Iend] = pdist2(G.Endeff,goal,'euclidean','Smallest',1);
+    if Dend <= 2
+        G = G.addEndeff(goal);
+        G = G.addEdges2([round(endeff) goal]);
+        break
+    end
   end
 end	
 

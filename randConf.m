@@ -7,11 +7,22 @@ load states.mat
 % X_body(:,2,:) = X_body(:,2,:) + 60;
 % n = size(G.Graph);
 n = size(X_body,1);
-iteration1 = round(n*rand(1,1)+.5);
+% iteration1 = round(n*rand(1,1)+.5);
 % iteration2 = round(n*rand(1,1)+.5);
 % iteration3 = round(n*rand(1,1)+.5);
-iteration2 = round(n/25*rand(1,1)+90);
-iteration3 = round(n/25*rand(1,1)+90);
+if goal(1) > 50
+    iteration1 = round(n/25*rand(1,1)+70);
+    iteration2 = round(n/25*rand(1,1)+90);
+    iteration3 = round(n/25*rand(1,1)+90);
+elseif goal(1) < 50
+    iteration1 = round(n/25*rand(1,1)+30);
+    iteration2 = round(n/25*rand(1,1)+10);
+    iteration3 = round(n/25*rand(1,1)+10);
+else
+    iteration1 = round(n*rand(1,1)+.5);
+    iteration2 = round(n*rand(1,1)+.5);
+    iteration3 = round(n*rand(1,1)+.5);
+end
     for i = 1:size(iteration1)
         [X_body2]= moduleTransform(X_body,X_body(end,:,iteration1(1)),X_body,direction,iteration1(i));
         [X_body3]= moduleTransform(X_body,X_body2(end,:,iteration2(1)),X_body2,direction,iteration2(i));

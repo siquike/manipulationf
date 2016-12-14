@@ -1,4 +1,4 @@
-function [qnew,bodyn,conf] = newConfig(qnear,qrand,bodyn,dq,o1,iteration,G,conf)
+function [qnew,bodyn,conf,endeff] = newConfig(qnear,qrand,bodyn,dq,o1,iteration,G,conf)
 % Built based on
 % http://math.stackexchange.com/questions/180418/calculate-rotation-matrix-to-align-vector-a-to-vector-b-in-3d
 
@@ -40,8 +40,8 @@ while inside == 1
             qnewcomp = permute(qnewcomp,[3 2 1]);
             [D1,I1] = pdist2(qnewcomp,qnew,'euclidean','Smallest',1);
             [D2,I2] = pdist2(qnewcomp,qnear,'euclidean','Smallest',1);
-            D1
-            D2
+% %             D1
+% %             D2
 %             %             [row,col] = find(D' <= 5);
             if D1 < 50 && D2 < 50
                 inside = 0;
@@ -50,6 +50,7 @@ while inside == 1
                 bodyn(:,:,3) = X_body3(:,:,I1)*100;
 %                 qnew = round(bodyn(end,:,3));
                 conf = [iteration1(i) iteration2(i) I1];
+                endeff = X_body3(end,:,I1)*100;
                 break
             end
     end

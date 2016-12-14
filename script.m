@@ -23,8 +23,8 @@
 % end
 %%
 qi = [50 60];
-K = 300; % K is number of vertices.
-goal = [40 70];
+K = 200; % K is number of vertices.
+goal = [40 50];
 dq = [2 2 2];% Incremental distance for the state
 nG = 100;
 [G,o1,body] = buildRRT(qi,K,dq,nG,goal); 
@@ -33,18 +33,27 @@ figure
 hold on
 
 A = G.Adjacency;
+A2 = G.Adjacency2;
 for i = 1:size(A,1)
     for j = i:size(A,1)
         if A(i,j) == 1
             node1 = G.Coords(i,:);
             node2 = G.Coords(j,:);
-            plot([node1(1) node2(1)],[node1(2) node2(2)],'-g','LineWidth',2);
+            plot([node1(1) node2(1)],[node1(2) node2(2)],'-g','LineWidth',2);            
+        end
+        if A2(i,j) == 1
+            nodeee1 = G.Coords2(i,:);
+            nodeee2 = G.Coords2(j,:);            
+            plot([nodeee1(1) nodeee2(1)],[nodeee1(2) nodeee2(2)],'-m','LineWidth',2);
         end
     end
 end
 
 plot(G.Nodes(:,1),G.Nodes(:,2),'gs','MarkerSize',7,'MarkerFaceColor',[0.5,0.5,0.5]);
-plot(qi(1),qi(2),'*R','MarkerSize',8)
+plot(G.Endeff(:,1),G.Endeff(:,2),'bs','MarkerSize',7,'MarkerFaceColor',[0.5,0.5,0.5]);
+plot(qi(1),qi(2),'*R','MarkerSize',10);
+plot(goal(1),goal(2),'*R','MarkerSize',10);
+
 %%
 for i = 1:size(body,4)
 %     for j = 1:size(body,3)
